@@ -22,7 +22,7 @@ class Miner {
 
 		// Create little-endian long int (4 bytes) with the version (2) on the first byte
 		this.versionBuffer = Buffer.alloc(4);
-		this.versionBuffer.writeInt32LE(version, 0);
+		this.versionBuffer.writeUInt32LE(version, 0);
 
 		// Reverse the previous Block Hash and the merkle_root
 		this.reversedPrevBlockHash = this.reverseBuffer(prevBlockHash);
@@ -30,8 +30,8 @@ class Miner {
 
 		// Buffer with time (4 Bytes), bits (4 Bytes) and nonce (4 Bytes) (later added and updated on each hash)
 		this.timeBitsNonceBuffer = Buffer.alloc(12);
-		this.timeBitsNonceBuffer.writeInt32LE(time, 0);
-		this.timeBitsNonceBuffer.writeInt32LE(bits, 4);
+		this.timeBitsNonceBuffer.writeUInt32LE(time, 0);
+		this.timeBitsNonceBuffer.writeUInt32LE(bits, 4);
 	}
 
 	reverseBuffer(src) {
@@ -53,7 +53,7 @@ class Miner {
 
 	getHash(nonce) {
 		// Update nonce in header Buffer
-		this.timeBitsNonceBuffer.writeInt32LE(nonce, 8);
+		this.timeBitsNonceBuffer.writeUInt32LE(nonce, 8);
 		// Double sha256 hash the header
 		return this.reverseBuffer(this.sha256sha256(Buffer.concat([this.versionBuffer, this.reversedPrevBlockHash, this.reversedMrklRoot, this.timeBitsNonceBuffer])));
 	}
