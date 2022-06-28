@@ -1,4 +1,5 @@
-const crypto = require('crypto');
+const shajs = require('sha.js');
+// const crypto = require('crypto');
 const chalk = require('chalk');
 
 class Miner {
@@ -44,7 +45,7 @@ class Miner {
 	}
 
 	sha256(buf) {
-		return crypto.createHash('sha256').update(buf).digest();
+		return shajs('sha256').update(buf).digest();
 	}
 
 	sha256sha256(buf) {
